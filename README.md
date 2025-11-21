@@ -13,7 +13,4 @@ We use the following pretrained VLMs from HuggingFace:
 The model is **not stored in this repo**.  
 It will be automatically downloaded by the `transformers` library the first time you run:
 
-```python
-from transformers import CLIPModel, CLIPProcessor
-model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+python scripts/test_clip.py in cmu-16824-group-project folder
