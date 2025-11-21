@@ -4,8 +4,8 @@
 
 We recommend using a dedicated environment:
 
-conda create -n vla-med python=3.10 -y
-conda activate vla-med
+#### conda create -n vla-med python=3.10 -y
+#### conda activate vla-med
 
 ### 2. Install required Python packages
 
