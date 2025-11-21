@@ -19,7 +19,7 @@ The model will be downloaded automatically into:
 
 "cmu-16824-group-project/checkpoints/clip/"
 
-Run: 
+Run for installation and test: 
 
 #### python scripts/test_clip.py
 
