@@ -1,9 +1,41 @@
-# cmu-16824-group-project
+## 📦 Installation for models
 
-## Pretrained Models
-Install required packages
-pip install --upgrade transformers huggingface_hub torch pillow
+### 1. Create & activate the conda environment
 
+We recommend using a dedicated environment:
+
+conda create -n vla-med python=3.10 -y
+conda activate vla-med
+
+### 2. Install required Python packages
+
+#### pip install --upgrade transformers huggingface_hub torch pillow
+
+### 3. Download the CLIP pretrained model (automatically)
+
+We provide a test script that loads the CLIP model and verifies the installation.
+
+The model will be downloaded automatically into:
+
+cmu-16824-group-project/checkpoints/clip/
+
+Run:
+
+#### python scripts/test_clip.py
+
+Expected output:
+
+CLIP model and processor loaded successfully.
+
+
+If this is your first time running the script,
+HuggingFace will download the weights into the local checkpoints directory:
+\cmu-16824-group-project\checkpoints\clip\hub folder
+
+
+
+
+## ℹ️ Other things good to know:
 We use the following pretrained VLMs from HuggingFace:
 
 - **CLIP ViT-B/32**  
@@ -11,6 +43,6 @@ We use the following pretrained VLMs from HuggingFace:
   Link: https://huggingface.co/openai/clip-vit-base-patch32
 
 The model is **not stored in this repo**.  
-It will be automatically downloaded by the `transformers` library the first time you run:
 
-python scripts/test_clip.py in cmu-16824-group-project folder
+
+
