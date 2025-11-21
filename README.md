@@ -19,17 +19,13 @@ The model will be downloaded automatically into:
 
 cmu-16824-group-project/checkpoints/clip/
 
-Run:
+Run: 
 
 #### python scripts/test_clip.py
 
-Expected output:
+Expected output: CLIP model and processor loaded successfully.
 
-CLIP model and processor loaded successfully.
-
-
-If this is your first time running the script,
-HuggingFace will download the weights into the local checkpoints directory:
+If this is your first time running the script, HuggingFace will download the weights into the local checkpoints directory:
 \cmu-16824-group-project\checkpoints\clip\hub folder
 
 
