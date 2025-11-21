@@ -16,12 +16,15 @@ We recommend using a dedicated environment:
 We provide a test script that loads the CLIP model and verifies the installation.
 
 If this is your first time running the script, the model weights will be downloaded automatically into:
+
 "cmu-16824-group-project/checkpoints/clip/"
 
 Run for installation and test: 
+
 #### python scripts/test_clip.py
 
 Expected output: 
+
 CLIP model and processor loaded successfully.
 
 
