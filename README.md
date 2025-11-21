@@ -9,7 +9,7 @@ We recommend using a dedicated environment:
 
 ### 2. Install required Python packages
 
-#### pip install --upgrade transformers huggingface_hub torch pillow
+#### pip install transformers huggingface_hub torch pillow
 
 ### 3. Download the CLIP pretrained model (automatically)
 
