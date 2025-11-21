@@ -15,20 +15,14 @@ We recommend using a dedicated environment:
 
 We provide a test script that loads the CLIP model and verifies the installation.
 
-The model will be downloaded automatically into:
-
+If this is your first time running the script, the model weights will be downloaded automatically into:
 "cmu-16824-group-project/checkpoints/clip/"
 
 Run for installation and test: 
-
 #### python scripts/test_clip.py
 
-Expected output: CLIP model and processor loaded successfully.
-
-If this is your first time running the script, HuggingFace will download the weights into the local checkpoints directory:
-"/cmu-16824-group-project/checkpoints/clip/" folder
-
-
+Expected output: 
+CLIP model and processor loaded successfully.
 
 
 ## ℹ️ Other things good to know:
