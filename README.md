@@ -1,6 +1,8 @@
 # cmu-16824-group-project
 
 ## Pretrained Models
+Install required packages
+pip install --upgrade transformers huggingface_hub torch pillow
 
 We use the following pretrained VLMs from HuggingFace:
 
