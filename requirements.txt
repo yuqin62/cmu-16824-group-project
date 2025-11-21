@@ -1,1 +1,9 @@
-
+torch>=1.12.0
+torchvision
+transformers>=4.30.0
+numpy
+nibabel
+tqdm
+PyYAML
+scikit-image
+matplotlib==3.10.7
