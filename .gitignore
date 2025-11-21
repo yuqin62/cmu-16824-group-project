@@ -205,3 +205,23 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+# -------------------------------
+# Project-specific ignore rules
+# -------------------------------
+
+# HuggingFace / Large model weights
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+checkpoints/
+lora_checkpoints/
+
+# Datasets (never commit huge medical data)
+data/
+
+# Local experiments / logs
+outputs/
+runs/
