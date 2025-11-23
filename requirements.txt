@@ -7,3 +7,4 @@ tqdm
 PyYAML
 scikit-image
 matplotlib==3.10.7
+psutil==7.1.3

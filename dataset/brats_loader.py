@@ -34,6 +34,7 @@ class BratsDataset(Dataset):
                 continue
             # check for modality files
             files = {m: None for m in self.modalities}
+           
             seg = None
             for fname in os.listdir(entry.path):
                 for m in self.modalities:
@@ -51,10 +52,13 @@ class BratsDataset(Dataset):
             # load one modality to get shape
             img = nib.load(case['mods'][self.modalities[0]]).get_fdata()
             n_slices = img.shape[self.slice_axis]
-            for s in range(n_slices):
+            FIXED_SLICE_INDEX = 77
+            if FIXED_SLICE_INDEX < n_slices and FIXED_SLICE_INDEX >= 0:
                 index_map.append(i)
-                if len(index_map) >= self.samples_per_case:
-                    break
+            # for s in range(n_slices):
+            #     index_map.append(i)
+            #     if len(index_map) >= self.samples_per_case:
+            #         break
         return index_map
 
     def __len__(self):
@@ -82,7 +86,6 @@ class BratsDataset(Dataset):
             arr = self._normalize_and_resize(arr)
             channels.append(arr)
         img = np.stack(channels, axis=0).astype(np.float32)
-
         seg_arr = self._load_slice(case['seg'], slice_idx)
         seg_arr = self._resize_seg(seg_arr)
 
