@@ -89,7 +89,7 @@ class BratsDataset(Dataset):
         seg_arr = self._load_slice(case['seg'], slice_idx)
         seg_arr = self._resize_seg(seg_arr)
 
-        # BRATS: labels 1 (necrotic/non-enhancing), 2 (edema), 4 (enhancing) sometimes.
+        # BRATS: labels 1 (necrotic/non-enhancing), 2 (edema), 4 (enhancing tumor)
         # background label 0
 
         img_t = torch.from_numpy(img)
