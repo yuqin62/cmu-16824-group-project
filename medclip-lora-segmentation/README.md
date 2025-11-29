@@ -126,8 +126,8 @@ python complete_visualization.py
 
 ### Full Animations
 Due to file size, full GIF animations are available here:
-- [Patient Animation (155 slices)](visuals/patient0_animation.gif)
-- [Random Samples GIF](visuals/random_samples.gif)
+- ![Example](visuals/patient0_animation.gif)
+- ![Example](visuals/random_samples.gif)
 
 | Metric | Value |
 |--------|-------|
