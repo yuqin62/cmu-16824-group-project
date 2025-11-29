@@ -225,3 +225,18 @@ data/
 # Local experiments / logs
 outputs/
 runs/
+
+
+# Large model files
+pretrained/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+# MedCLIP LoRA Project
+medclip-lora-segmentation/checkpoints/
+medclip-lora-segmentation/training_log.json
+medclip-lora-segmentation/__pycache__/
+medclip-lora-segmentation/datasets/__pycache__/
+

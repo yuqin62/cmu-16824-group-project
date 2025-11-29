@@ -119,10 +119,20 @@ python complete_visualization.py
 
 ### Quantitative Metrics
 
+## 📸 Visualizations
+
+### Sample Predictions
+![Example](visuals/sample_100.png)
+
+### Full Animations
+Due to file size, full GIF animations are available here:
+- [Patient Animation (155 slices)](visuals/patient0_animation.gif)
+- [Random Samples GIF](visuals/random_samples.gif)
+
 | Metric | Value |
 |--------|-------|
 | **Best Validation Dice** | 0.XXXX |
-| **Training Time** | ~X hours (AWS g5.xlarge) |
+| **Training Time** | ~9 hours (AWS g5.xlarge) |
 | **Trainable Parameters** | 141,312 / 28,053,882 (0.50%) |
 | **Memory Usage** | ~12GB (batch_size=2) |
 
