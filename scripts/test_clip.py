@@ -5,6 +5,7 @@ from argparse import Namespace
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import ListedColormap, BoundaryNorm
+
 # ------------------------------------------------------------------
 # Ensure project root is on sys.path so "src" can be imported
 # ------------------------------------------------------------------
@@ -73,10 +74,10 @@ def main():
 
     # load dataset yaml
     args_dataset = load_args("../configs/dataset.yaml")
-    train_dataset = BratsDataset(root=args_dataset.train_data_root, modalities=args_dataset.modalities, patch_size=args_dataset.patch_size, 
-                    slice_axis=args_dataset.slice_axis)
+    dataset = BratsDataset(root=args_dataset.train_data_root, modalities=args_dataset.modalities, patch_size=args_dataset.patch_size)
     
-    plot_sample_image_and_target(train_dataset, plot_path='./sample_image_target.png')
+    
+    plot_sample_image_and_target(dataset, plot_path='./sample_image_target.png')
     print("Sample image and target saved to {plot_path}".format(plot_path='./sample_image_target.png'))
 
 if __name__ == "__main__":
