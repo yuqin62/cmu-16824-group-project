@@ -13,6 +13,7 @@ from PIL import Image
 from torch.utils.data import Subset, DataLoader
 import torch.nn.functional as F
 import torch
+
 # ------------------------------------------------------------------
 # Ensure project root is on sys.path so "src" can be imported
 # ------------------------------------------------------------------
@@ -96,10 +97,9 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # load dataset yaml
     args_dataset = load_args("../configs/dataset.yaml")
-    dataset = BratsDataset(root=args_dataset.train_data_root, modalities=args_dataset.modalities, patch_size=args_dataset.patch_size, 
-                    slice_axis=args_dataset.slice_axis)
+    dataset = BratsDataset(root=args_dataset.train_data_root, modalities=args_dataset.modalities, patch_size=args_dataset.patch_size)
     
-    TRAIN_RATIO = 0.70  
+    TRAIN_RATIO = 0.9  
     BATCH_SIZE = 4
     NUM_WORKERS = 4
     train_dataset, val_dataset = split_dataset(dataset, train_ratio=TRAIN_RATIO)
@@ -131,33 +131,30 @@ def main():
 
 
 
-def resize_binarize_and_save(predicted_mask, image_sample, target_sample, batch_idx, prompt_name, patch_size, SAVE_DIR):
+def save_prediction(predicted_mask, image_sample, target_sample, batch_idx, prompt_name, patch_size, SAVE_DIR):
     """
     Resizes a single predicted mask, binarizes it, and saves it as a PNG file.
-    
-    predicted_mask: Tensor of shape (H_out, W_out)
-    image: Tensor of shape (3,H,W)
-    target_mask: Tensor of shape (H,W)
-    prompt_name: Descriptive name based on the tumor component (e.g., 'ET', 'NC')
+    Args:
+        predicted_mask: tensor of shape (H_out, W_out)
+        image: tensor of shape (3,H,W)
+        target_mask: tensor of shape (H,W)
+        prompt_name: descriptive name based on tumor component (e.g., 'ET', 'NC')
     """
     original_h, original_w = patch_size
     
-    # resize to (1, H_out, W_out)
+    # resize to (1, H_original, W_original)
     resized_mask_tensor = F.interpolate(
         predicted_mask.float().unsqueeze(0).unsqueeze(0), 
         size=(original_h, original_w),
         mode='nearest' # for binary masks
     ).squeeze()
     
-    # binarize 
     binary_mask_np = (resized_mask_tensor.cpu().numpy() > 0.5).astype(np.uint8)
     
- 
     pil_target = to_pil_image(normalize(target_sample))
     pil_image = to_pil_image(normalize(image_sample))
     pil_combined_image = to_pil_image(normalize(image_sample[0,:,:] + image_sample[1,:,:] + image_sample[2,:,:]))
 
-    # save mask
     pil_mask = Image.fromarray(binary_mask_np * 255) 
     
     
@@ -198,7 +195,7 @@ def normalize(image):
 
 
 def compute_dice_score(y_true, y_pred, epsilon=1e-6):
-    """Computes the Dice Similarity Coefficient (DSC) for two binary arrays."""
+    """Compute dice similarity score for two arrays"""
     y_true_f = y_true.flatten()
     y_pred_f = y_pred.flatten()
     intersection = np.sum(y_true_f * y_pred_f)
@@ -208,10 +205,11 @@ def compute_dice_score(y_true, y_pred, epsilon=1e-6):
 
 def evaluate_dice_scores(true_mask, predicted_mask, tag):
     """
-    true_mask: numpy array of shape (H,W) with integer labels
-    predicted_mask: numpy array of shape (H,W) with integer labels
-    Computes Dice scores for NC (1), ED (2), ET (4)
-    Returns a average dice score across the three labels
+    Args:
+        true_mask: numpy array of shape (H,W) 
+        predicted_mask: numpy array of shape (H,W) 
+        calculate dice scores for NC (1), ED (2), ET (4)
+        Returns a average dice score across the three labels
     """
     labels = {
         "NC": 1,
@@ -276,26 +274,26 @@ def inference(model, processor, val_dataloader, device, patch_size):
                 ).squeeze(1)
                 
                 predicted_masks_for_batch = []
-                
-                binary_mask = (upsampled_logits[i] > 0.0).byte().cpu()
-                if binary_mask.shape[0] != H or binary_mask.shape[1] != W:
-                    binary_mask = F.interpolate(
-                        binary_mask.float().unsqueeze(0).unsqueeze(0), 
-                        size=(H, W), 
-                        mode='nearest'
-                    ).squeeze().byte().cpu()
-                for i in range(B):
-                    resize_binarize_and_save(
-                        binary_mask, 
-                        image_samples[i],
-                        target_samples[i],
-                        batch_idx, 
-                        tag,
-                        patch_size,
-                        SAVE_DIR=SAVE_DIR
-                    )
+                for j in range(B):
+                    binary_mask = (upsampled_logits[i] > 0.0).byte().cpu()
+                    if binary_mask.shape[0] != H or binary_mask.shape[1] != W:
+                        binary_mask = F.interpolate(
+                            binary_mask.float().unsqueeze(0).unsqueeze(0), 
+                            size=(H, W), 
+                            mode='nearest'
+                        ).squeeze().byte().cpu()
+                    if batch_idx%1000 == 0:
+                        save_prediction(
+                            binary_mask, 
+                            image_samples[j],
+                            target_samples[j],
+                            batch_idx, 
+                            tag,
+                            patch_size,
+                            SAVE_DIR=SAVE_DIR
+                        )
                     dice_score = evaluate_dice_scores(
-                        true_mask=target_samples[i].cpu().numpy(),
+                        true_mask=target_samples[j].cpu().numpy(),
                         predicted_mask=binary_mask.squeeze(0).cpu().numpy(),
                         tag=tag
                     )
