@@ -1,5 +1,4 @@
 train_data_root: "../data/BraTS2020_TrainingData/MICCAI_BraTS2020_TrainingData"
 val_data_root: "../data/BraTS2020_ValidationData/MICCAI_BraTS2020_ValidationData"
 modalities: ["t1ce","t2","flair"]
-patch_size: [240, 240]
-slice_axis: 2 # axial
+patch_size: [224, 224]
